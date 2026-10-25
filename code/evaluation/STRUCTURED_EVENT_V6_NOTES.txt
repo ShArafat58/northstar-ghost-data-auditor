@@ -1,0 +1,38 @@
+STEP 8: STRUCTURED EVENT V6 — CONSOLIDATED SAMPLE A/B PATCH
+
+Install at the root of your existing hackerrank-orchestrate-october26 repo.
+The ZIP is a minimal overlay, NOT a standalone copy of the repo.
+Only code/observations.py, code/baseline.py, code/run_baseline.py, a new
+synthetic regression test, and notes are included. Do not overwrite your data.
+
+A/B evaluation in the uploaded 32-case training/sample dataset, using a
+reproduced V5 control in the same environment:
+
+  Metric                    V5         V6
+  Covered / contract-valid  32/32      32/32
+  Status correct            31/32      32/32
+  Exact step hits           147        160
+  Step precision            94.2%      100.0%
+  Step recall               76.2%      82.9%
+  Step F1                   84.2%      90.7%
+  Exact sequences/rows      7/32       10/32
+
+Exact-row wins: 3; regressions: 0. Tests: 74/74 passed locally.
+This training-set result cannot establish hidden-score or rank performance.
+No sample labels, case IDs or canonical predictions are embedded in predictor.
+The solution is still only a deterministic exploratory baseline, NOT the
+required model-driven tool-use agent. No full 518-case production run was
+performed, and 14 media sources still yield zero structured observations.
+
+Run all commands individually inside the IDE PowerShell terminal, not as a
+single multiline here-string:
+
+  $env:PATH = "C:\Program Files\Tesseract-OCR;$env:PATH"
+  python -m unittest discover -s .\code\tests -p "test_*.py" -v
+  python .\code\run_baseline.py --sample --variant media-evidence-v5 --out .\code\evaluation\v5_v6_control.csv
+  python .\code\run_baseline.py --sample --variant structured-event-v6 --out .\code\evaluation\structured_event_v6.csv
+  python .\code\evaluation\main.py --predictions .\code\evaluation\v5_v6_control.csv --compare .\code\evaluation\structured_event_v6.csv
+  python .\code\evaluation\main.py --predictions .\code\evaluation\structured_event_v6.csv
+
+Unchanged V5 variant is retained for A/B rollback.
+No credentials or raw dataset included in this ZIP.

@@ -1,0 +1,10 @@
+.env
+*.env
+__pycache__/
+*.pyc
+dataset/
+output.csv
+log.txt
+*.csv
+*.jsonl
+*.zip
